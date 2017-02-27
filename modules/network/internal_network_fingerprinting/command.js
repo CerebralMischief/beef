@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2006-2016 Wade Alcorn - wade@bindshell.net
+// Copyright (c) 2006-2017 Wade Alcorn - wade@bindshell.net
 // Browser Exploitation Framework (BeEF) - http://beefproject.com
 // See the file 'doc/COPYING' for copying permission
 //
@@ -241,6 +241,10 @@ beef.execute(function() {
     "443","https",false,
     "/themes/pfsense_ng/images/logo.gif",200,56),
   new Array(
+    "pfSense CE <= 2.3.2",
+    "80","http",false,
+    "/logo.png",124,36),
+  new Array(
     "Apache Tomcat",
     "8080","http",true,
     "/docs/images/tomcat.gif",146,92),
@@ -262,7 +266,11 @@ beef.execute(function() {
     "80","http",false,
     "/logo.gif",150,47),
   new Array("SMC Router","80","http",false,"/images/logo.gif",133,59),
-  new Array("ntop","3000","http",false,"/ntop_logo.png",103,50)
+  new Array("ntop","3000","http",false,"/ntop_logo.png",103,50),
+  new Array(
+	"ZeroShell",
+	"80","http",false,
+	"/kerbynet/Zeroshell.gif",180,63)
 
 // Uncommon signatures
 //new Array("Microsoft ADFS","80","http",false,"/adfs/portal/illustration/illustration.png",1420,1080),

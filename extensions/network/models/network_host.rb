@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006-2016 Wade Alcorn - wade@bindshell.net
+# Copyright (c) 2006-2017 Wade Alcorn - wade@bindshell.net
 # Browser Exploitation Framework (BeEF) - http://beefproject.com
 # See the file 'doc/COPYING' for copying permission
 #
@@ -51,10 +51,10 @@ module BeEF
           # if host already exists in data store with the same details
           # then update lastseen and return
           existing_host = BeEF::Core::Models::NetworkHost.all(new_host)
-          (existing_host.update( :lastseen => Time.now ); return) unless existing_host.empty?
+          (existing_host.update( :lastseen => Time.new.to_i ); return) unless existing_host.empty?
 
           # store the new network host details
-          new_host[:lastseen] = Time.now
+          new_host[:lastseen] = Time.new.to_i
           network_host = BeEF::Core::Models::NetworkHost.new(new_host)
           result = network_host.save
           (print_error "Failed to save network host"; return) if result.nil?

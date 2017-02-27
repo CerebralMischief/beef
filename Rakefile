@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2006-2016 Wade Alcorn - wade@bindshell.net
+# Copyright (c) 2006-2017 Wade Alcorn - wade@bindshell.net
 # Browser Exploitation Framework (BeEF) - http://beefproject.com
 # See the file 'doc/COPYING' for copying permission
 #
@@ -77,6 +77,37 @@ end
 desc "Run bundle-audit"
 task :bundle_audit do
   Rake::Task['bundle_audit:run'].invoke
+end
+
+################################
+# SSL/TLS certificate
+
+namespace :ssl do
+  desc 'Create a new SSL certificate'
+  task :create do
+    if File.file?('beef_key.pem')
+      puts 'Certificate already exists. Replace? [Y/n]'
+      confirm = STDIN.getch.chomp
+      unless confirm.eql?('') || confirm.downcase.eql?('y')
+        puts "Aborted"
+        exit 1
+      end
+    end
+    Rake::Task['ssl:replace'].invoke
+  end
+
+  desc 'Re-generate SSL certificate'
+  task :replace do
+    if File.file?('/usr/local/bin/openssl')
+      path = '/usr/local/bin/openssl'
+    elsif File.file?('/usr/bin/openssl')
+      path = '/usr/bin/openssl'
+    else
+      puts "[-] Error: could not find openssl"
+      exit 1
+    end
+    IO.popen([path, 'req', '-new', '-newkey', 'rsa:4096', '-sha256', '-x509', '-days', '3650', '-nodes', '-out', 'beef_cert.pem', '-keyout', 'beef_key.pem', '-subj', '/CN=localhost'], 'r+').read.to_s
+  end
 end
 
 ################################
